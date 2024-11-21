@@ -3,30 +3,15 @@ TERMUX_PKG_DESCRIPTION="Scalable Video Technology for AV1 (SVT-AV1 Encoder and D
 TERMUX_PKG_LICENSE="custom"
 TERMUX_PKG_LICENSE_FILE="LICENSE.md, PATENTS.md"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="2.3.0"
+TERMUX_PKG_VERSION=1.4.1
 TERMUX_PKG_SRCURL=https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v${TERMUX_PKG_VERSION}/SVT-AV1-v${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=ebb0b484ef4a0dc281e94342a9f73ad458496f5d3457eca7465bec943910c6c3
-TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_SHA256=e3f7fc194afc6c90b43e0b80fa24c09940cb03bea394e0e1f5d1ded18e9ab23f
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 -DBUILD_TESTING=OFF
 -DCMAKE_OUTPUT_DIRECTORY=$TERMUX_PKG_BUILDDIR
+-DCOMPILE_C_ONLY=ON
 "
-
-termux_step_post_get_source() {
-	# Do not forget to bump revision of reverse dependencies and rebuild them
-	# after SOVERSION is changed.
-	local _ENC_SOVERSION=2
-
-	local _enc_soverion=$(sed -En 's/^set\(ENC_VERSION_MAJOR\s+([0-9.]+).*/\1/p' \
-			Source/Lib/CMakeLists.txt)
-	if [ ! "${_enc_soverion}" ] || [ "${_ENC_SOVERSION}" != "${_enc_soverion}" ]; then
-		termux_error_exit "SOVERSION guard check failed."
-	fi
-}
 
 termux_step_pre_configure() {
 	LDFLAGS+=" -lm"
-	case "${TERMUX_ARCH}" in
-	x86_64) LDFLAGS+=" -llog" ;;
-	esac
 }

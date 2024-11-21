@@ -34,8 +34,6 @@
 #include <math.h>
 #include "cephes_subrl.h"
 
-long double complex casinl(long double complex);
-
 long double complex
 cacosl(long double complex z)
 {

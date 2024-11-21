@@ -2,34 +2,17 @@ TERMUX_PKG_HOMEPAGE=https://pip.pypa.io/
 TERMUX_PKG_DESCRIPTION="The PyPA recommended tool for installing Python packages"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="24.3.1"
+TERMUX_PKG_VERSION=23.0.1
 TERMUX_PKG_SRCURL=https://github.com/pypa/pip/archive/$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=1349240eff5fd44f4b9d834d503d87505a6cd0a8ab022f3f1665181d6a719a73
-TERMUX_PKG_AUTO_UPDATE=true
-TERMUX_PKG_UPDATE_TAG_TYPE="newest-tag"
-TERMUX_PKG_UPDATE_VERSION_REGEXP='^\d+\.\d+(\.\d+)?$'
+TERMUX_PKG_SHA256=8544443b6810cf1e41306f44218449524d579f4f801b6b16e46f7cabe64de155
 TERMUX_PKG_DEPENDS="clang, make, pkg-config, python (>= 3.11.1-1)"
 TERMUX_PKG_ANTI_BUILD_DEPENDS="clang"
 TERMUX_PKG_BREAKS="python (<< 3.11.1-1)"
 TERMUX_PKG_PLATFORM_INDEPENDENT=true
 TERMUX_PKG_BUILD_IN_SRC=true
-TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, setuptools==69.5.1, docutils, myst_parser, sphinx_copybutton, sphinx_inline_tabs, sphinxcontrib.towncrier, completion"
-
-termux_pkg_auto_update() {
-	local tag
-	tag="$(termux_github_api_get_tag "${TERMUX_PKG_SRCURL}" "${TERMUX_PKG_UPDATE_TAG_TYPE}")"
-
-	if grep -oP "${TERMUX_PKG_UPDATE_VERSION_REGEXP}" <<< "${tag}"; then
-		termux_pkg_upgrade_version "${tag}"
-	else
-		echo "INFO: No update needed, tag '${tag}' is not a stable release."
-	fi
-}
+TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, docutils, myst_parser, sphinx_copybutton, sphinx_inline_tabs, sphinxcontrib.towncrier, completion"
 
 termux_step_post_make_install() {
-	if [ ! -e "$TERMUX_PYTHON_HOME/site-packages/pip-$TERMUX_PKG_VERSION.dist-info" ]; then
-		termux_error_exit "Package ${TERMUX_PKG_NAME} doesn't build properly."
-	fi
 	( # creating pip documentation
 		cd docs/
 		python pip_sphinxext.py

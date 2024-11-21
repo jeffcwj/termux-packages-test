@@ -6,10 +6,9 @@ TERMUX_PKG_DEPENDS="libiconv, ncurses, vim-runtime"
 TERMUX_PKG_RECOMMENDS="diffutils"
 # vim should only be updated every 50 releases on multiples of 50.
 # Update all of vim, vim-python and vim-gtk to the same version in one PR.
-TERMUX_PKG_VERSION=9.1.0800
+TERMUX_PKG_VERSION=9.0.1350
 TERMUX_PKG_SRCURL="https://github.com/vim/vim/archive/v${TERMUX_PKG_VERSION}.tar.gz"
-TERMUX_PKG_SHA256=3bc15301f35addac9acde1da64da0976dbeafe1264e904c25a3cdc831e347303
-TERMUX_PKG_AUTO_UPDATE=false
+TERMUX_PKG_SHA256=89ad9ab3365efc55749f3e08fb88cbb5fb3abc83dfe5f2f6b53cb0a27e38bc65
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 vim_cv_getcwd_broken=no
 vim_cv_memmove_handles_overlap=yes
@@ -32,9 +31,9 @@ bin/rvim
 bin/ex
 share/man/man1/evim.1
 share/icons
-share/vim/vim91/spell/en.ascii*
-share/vim/vim91/print
-share/vim/vim91/tools
+share/vim/vim90/spell/en.ascii*
+share/vim/vim90/print
+share/vim/vim90/tools
 "
 TERMUX_PKG_CONFFILES="share/vim/vimrc"
 
@@ -67,9 +66,9 @@ termux_step_post_make_install() {
 		> $TERMUX_PREFIX/share/vim/vimrc
 
 	# Remove most tutor files:
-	cp $TERMUX_PREFIX/share/vim/vim91/tutor/{tutor,tutor.vim,tutor.utf-8} $TERMUX_PKG_TMPDIR/
-	rm -f $TERMUX_PREFIX/share/vim/vim91/tutor/*
-	cp $TERMUX_PKG_TMPDIR/{tutor,tutor.vim,tutor.utf-8} $TERMUX_PREFIX/share/vim/vim91/tutor/
+	cp $TERMUX_PREFIX/share/vim/vim90/tutor/{tutor,tutor.vim,tutor.utf-8} $TERMUX_PKG_TMPDIR/
+	rm -f $TERMUX_PREFIX/share/vim/vim90/tutor/*
+	cp $TERMUX_PKG_TMPDIR/{tutor,tutor.vim,tutor.utf-8} $TERMUX_PREFIX/share/vim/vim90/tutor/
 }
 
 termux_step_create_debscripts() {

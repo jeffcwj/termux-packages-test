@@ -5,10 +5,10 @@ TERMUX_PKG_MAINTAINER="@termux"
 
 # vim should only be updated every 50 releases on multiples of 50.
 # Update all of vim, vim-python and vim-gtk to the same version in one PR.
-TERMUX_PKG_VERSION=9.1.0800
-TERMUX_PKG_SRCURL="https://github.com/vim/vim/archive/v${TERMUX_PKG_VERSION}.tar.gz"
-TERMUX_PKG_SHA256=3bc15301f35addac9acde1da64da0976dbeafe1264e904c25a3cdc831e347303
-TERMUX_PKG_AUTO_UPDATE=false
+TERMUX_PKG_VERSION=9.0.1350
+TERMUX_PKG_SRCURL=https://github.com/vim/vim/archive/v${TERMUX_PKG_VERSION}.tar.gz
+TERMUX_PKG_SHA256=89ad9ab3365efc55749f3e08fb88cbb5fb3abc83dfe5f2f6b53cb0a27e38bc65
+
 TERMUX_PKG_DEPENDS="gdk-pixbuf, glib, gtk3, libcairo, libcanberra, libice, libiconv, liblua52, libsm, libx11, libxt, ncurses, pango, python"
 TERMUX_PKG_CONFLICTS="vim, vim-python, vim-runtime"
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -17,8 +17,6 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 ac_cv_small_wchar_t=no
 ac_cv_path_vi_cv_path_plain_lua=lua5.2
 vi_cv_path_python3_pfx=$TERMUX_PREFIX
-vi_cv_path_python3_include=${TERMUX_PREFIX}/include/python${TERMUX_PYTHON_VERSION}
-vi_cv_path_python3_platinclude=${TERMUX_PREFIX}/include/python${TERMUX_PYTHON_VERSION}
 vi_cv_var_python3_abiflags=
 vi_cv_var_python3_version=${TERMUX_PYTHON_VERSION}
 vim_cv_getcwd_broken=no
@@ -40,9 +38,11 @@ vim_cv_tty_group=world
 --with-x"
 
 TERMUX_PKG_RM_AFTER_INSTALL="
-share/vim/vim91/spell/en.ascii*
-share/vim/vim91/print
-share/vim/vim91/tools
+share/vim/vim90/spell/en.ascii*
+share/vim/vim90/print
+share/vim/vim90/tools
+share/applications/mimeinfo.cache
+share/icons/hicolor/icon-theme.cache
 "
 
 TERMUX_PKG_CONFFILES="share/vim/vimrc"

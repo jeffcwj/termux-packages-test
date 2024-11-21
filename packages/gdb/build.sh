@@ -4,19 +4,17 @@ TERMUX_PKG_LICENSE="GPL-3.0"
 TERMUX_PKG_MAINTAINER="@termux"
 # This package depends on libpython${TERMUX_PYTHON_VERSION}.so.
 # Please revbump and rebuild when bumping TERMUX_PYTHON_VERSION.
-TERMUX_PKG_VERSION="15.2"
+TERMUX_PKG_VERSION=13.1
 TERMUX_PKG_SRCURL=https://mirrors.kernel.org/gnu/gdb/gdb-${TERMUX_PKG_VERSION}.tar.xz
-TERMUX_PKG_SHA256=83350ccd35b5b5a0cba6b334c41294ea968158c573940904f00b92f76345314d
-TERMUX_PKG_DEPENDS="guile, libc++, libexpat, libgmp, libiconv, liblzma, libmpfr, libthread-db, ncurses, python, readline, zlib, zstd"
+TERMUX_PKG_SHA256=115ad5c18d69a6be2ab15882d365dda2a2211c14f480b3502c6eba576e2e95a0
+TERMUX_PKG_DEPENDS="libc++, libexpat, libiconv, liblzma, libmpfr, libthread-db, ncurses, python, readline, zlib, zstd"
 TERMUX_PKG_BREAKS="gdb-dev"
 TERMUX_PKG_REPLACES="gdb-dev"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --disable-shared
 --disable-werror
 --with-system-readline
---with-system-zlib
 --with-curses
---with-guile
 --with-python=$TERMUX_PREFIX/bin/python
 ac_cv_func_getpwent=no
 ac_cv_func_getpwnam=no
@@ -25,10 +23,6 @@ TERMUX_PKG_RM_AFTER_INSTALL="share/gdb/syscalls share/gdb/system-gdbinit"
 TERMUX_PKG_MAKE_INSTALL_TARGET="-C gdb install"
 
 termux_step_pre_configure() {
-	if [ "$TERMUX_ON_DEVICE_BUILD" = "false" ]; then
-		export ac_cv_guild_program_name=/usr/bin/guild-3.0
-	fi
-
 	# Fix "undefined reference to 'rpl_gettimeofday'" when building:
 	export gl_cv_func_gettimeofday_clobber=no
 	export gl_cv_func_gettimeofday_posix_signature=yes

@@ -1,7 +1,6 @@
-diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
---- node-v20.17.0/node.gyp	2024-08-21 15:35:29.000000000 +0300
-+++ node-v20.17.0.mod/node.gyp	2024-09-08 02:14:28.718416719 +0300
-@@ -529,7 +529,8 @@
+--- ./node.gyp.orig	2023-02-02 02:40:18.000000000 +0530
++++ ./node.gyp	2023-02-10 18:36:40.392625869 +0530
+@@ -157,7 +157,8 @@
        ],
  
        'sources': [
@@ -11,10 +10,49 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
        ],
  
        'dependencies': [
-@@ -1008,296 +1009,6 @@
-         },
+@@ -458,6 +459,7 @@
+ 
+       'include_dirs': [
+         'src',
++        'deps/cares/src/lib',
+         '<(SHARED_INTERMEDIATE_DIR)' # for node_natives.h
        ],
-     }, # node_lib_target_name
+       'dependencies': [
+@@ -1125,309 +1127,6 @@
+         } ],
+       ]
+     }, # specialize_node_d
+-    { # fuzz_url
+-      'target_name': 'fuzz_url',
+-      'type': 'executable',
+-      'dependencies': [
+-        '<(node_lib_target_name)',
+-      ],
+-      'includes': [
+-        'node.gypi'
+-      ],
+-      'include_dirs': [
+-        'src',
+-      ],
+-      'defines': [
+-        'NODE_ARCH="<(target_arch)"',
+-        'NODE_PLATFORM="<(OS)"',
+-        'NODE_WANT_INTERNALS=1',
+-      ],
+-      'sources': [
+-        'src/node_snapshot_stub.cc',
+-        'test/fuzzers/fuzz_url.cc',
+-      ],
+-      'conditions': [
+-        ['OS=="linux"', {
+-          'ldflags': [ '-fsanitize=fuzzer' ]
+-        }],
+-        # Ensure that ossfuzz flag has been set and that we are on Linux
+-        [ 'OS!="linux" or ossfuzz!="true"', {
+-          'type': 'none',
+-        }],
+-      ],
+-    }, # fuzz_url
 -    { # fuzz_env
 -      'target_name': 'fuzz_env',
 -      'type': 'executable',
@@ -22,6 +60,9 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -        '<(node_lib_target_name)',
 -        'deps/histogram/histogram.gyp:histogram',
 -        'deps/uvwasi/uvwasi.gyp:uvwasi',
+-        'node_dtrace_header',
+-        'node_dtrace_ustack',
+-        'node_dtrace_provider',
 -      ],
 -      'includes': [
 -        'node.gypi'
@@ -52,100 +93,8 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -        [ 'OS!="linux" or ossfuzz!="true"', {
 -          'type': 'none',
 -        }],
--        # Avoid excessive LTO
--        ['enable_lto=="true"', {
--          'ldflags': [ '-fno-lto' ],
--        }],
 -      ],
 -    }, # fuzz_env
--    { # fuzz_ClientHelloParser.cc
--      'target_name': 'fuzz_ClientHelloParser',
--      'type': 'executable',
--      'dependencies': [
--        '<(node_lib_target_name)',
--        'deps/histogram/histogram.gyp:histogram',
--        'deps/uvwasi/uvwasi.gyp:uvwasi',
--      ],
--      'includes': [
--        'node.gypi'
--      ],
--      'include_dirs': [
--        'src',
--        'tools/msvs/genfiles',
--        'deps/v8/include',
--        'deps/cares/include',
--        'deps/uv/include',
--        'deps/uvwasi/include',
--        'test/cctest',
--      ],
--      'defines': [
--        'NODE_ARCH="<(target_arch)"',
--        'NODE_PLATFORM="<(OS)"',
--        'NODE_WANT_INTERNALS=1',
--      ],
--      'sources': [
--        'src/node_snapshot_stub.cc',
--        'test/fuzzers/fuzz_ClientHelloParser.cc',
--      ],
--      'conditions': [
--        ['OS=="linux"', {
--          'ldflags': [ '-fsanitize=fuzzer' ]
--        }],
--        # Ensure that ossfuzz flag has been set and that we are on Linux
--        [ 'OS!="linux" or ossfuzz!="true"', {
--          'type': 'none',
--        }],
--        # Avoid excessive LTO
--        ['enable_lto=="true"', {
--          'ldflags': [ '-fno-lto' ],
--        }],
--      ],
--    }, # fuzz_ClientHelloParser.cc
--    { # fuzz_strings
--      'target_name': 'fuzz_strings',
--      'type': 'executable',
--      'dependencies': [
--        '<(node_lib_target_name)',
--        'deps/googletest/googletest.gyp:gtest_prod',
--        'deps/histogram/histogram.gyp:histogram',
--        'deps/uvwasi/uvwasi.gyp:uvwasi',
--        'deps/ada/ada.gyp:ada',
--      ],
--      'includes': [
--        'node.gypi'
--      ],
--      'include_dirs': [
--        'src',
--        'tools/msvs/genfiles',
--        'deps/v8/include',
--        'deps/cares/include',
--        'deps/uv/include',
--        'deps/uvwasi/include',
--        'test/cctest',
--      ],
--      'defines': [
--        'NODE_ARCH="<(target_arch)"',
--        'NODE_PLATFORM="<(OS)"',
--        'NODE_WANT_INTERNALS=1',
--      ],
--      'sources': [
--        'src/node_snapshot_stub.cc',
--        'test/fuzzers/fuzz_strings.cc',
--      ],
--      'conditions': [
--        ['OS=="linux"', {
--          'ldflags': [ '-fsanitize=fuzzer' ]
--        }],
--        # Ensure that ossfuzz flag has been set and that we are on Linux
--        [ 'OS!="linux" or ossfuzz!="true"', {
--          'type': 'none',
--        }],
--        # Avoid excessive LTO
--        ['enable_lto=="true"', {
--          'ldflags': [ '-fno-lto' ],
--        }],
--      ],
--    }, # fuzz_strings
 -    {
 -      'target_name': 'cctest',
 -      'type': 'executable',
@@ -157,8 +106,10 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -        'deps/googletest/googletest.gyp:gtest_main',
 -        'deps/histogram/histogram.gyp:histogram',
 -        'deps/uvwasi/uvwasi.gyp:uvwasi',
+-        'node_dtrace_header',
+-        'node_dtrace_ustack',
+-        'node_dtrace_provider',
 -        'deps/simdutf/simdutf.gyp:simdutf',
--        'deps/ada/ada.gyp:ada',
 -      ],
 -
 -      'includes': [
@@ -181,20 +132,45 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -        'NODE_WANT_INTERNALS=1',
 -      ],
 -
--      'sources': [ '<@(node_cctest_sources)' ],
+-      'sources': [
+-        'src/node_snapshot_stub.cc',
+-        'test/cctest/node_test_fixture.cc',
+-        'test/cctest/node_test_fixture.h',
+-        'test/cctest/test_aliased_buffer.cc',
+-        'test/cctest/test_base64.cc',
+-        'test/cctest/test_base_object_ptr.cc',
+-        'test/cctest/test_node_postmortem_metadata.cc',
+-        'test/cctest/test_environment.cc',
+-        'test/cctest/test_linked_binding.cc',
+-        'test/cctest/test_node_api.cc',
+-        'test/cctest/test_per_process.cc',
+-        'test/cctest/test_platform.cc',
+-        'test/cctest/test_report.cc',
+-        'test/cctest/test_json_utils.cc',
+-        'test/cctest/test_sockaddr.cc',
+-        'test/cctest/test_traced_value.cc',
+-        'test/cctest/test_util.cc',
+-        'test/cctest/test_url.cc',
+-      ],
 -
 -      'conditions': [
 -        [ 'node_use_openssl=="true"', {
 -          'defines': [
 -            'HAVE_OPENSSL=1',
 -          ],
--          'sources': [ '<@(node_cctest_openssl_sources)' ],
+-          'sources': [
+-            'test/cctest/test_crypto_clienthello.cc',
+-            'test/cctest/test_node_crypto.cc',
+-          ]
 -        }],
 -        ['v8_enable_inspector==1', {
+-          'sources': [
+-            'test/cctest/test_inspector_socket.cc',
+-            'test/cctest/test_inspector_socket_server.cc'
+-          ],
 -          'defines': [
 -            'HAVE_INSPECTOR=1',
 -          ],
--          'sources': [ '<@(node_cctest_inspector_sources)' ],
 -        }, {
 -           'defines': [
 -             'HAVE_INSPECTOR=0',
@@ -219,10 +195,6 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -            'Ws2_32.lib',
 -          ],
 -        }],
--        # Avoid excessive LTO
--        ['enable_lto=="true"', {
--          'ldflags': [ '-fno-lto' ],
--        }],
 -      ],
 -    }, # cctest
 -
@@ -234,7 +206,9 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -        '<(node_lib_target_name)',
 -        'deps/histogram/histogram.gyp:histogram',
 -        'deps/uvwasi/uvwasi.gyp:uvwasi',
--        'deps/ada/ada.gyp:ada',
+-        'node_dtrace_header',
+-        'node_dtrace_ustack',
+-        'node_dtrace_provider',
 -      ],
 -
 -      'includes': [
@@ -243,7 +217,6 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -
 -      'include_dirs': [
 -        'src',
--        'tools',
 -        'tools/msvs/genfiles',
 -        'deps/v8/include',
 -        'deps/cares/include',
@@ -277,10 +250,6 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -            'Ws2_32.lib',
 -          ],
 -        }],
--        # Avoid excessive LTO
--        ['enable_lto=="true"', {
--          'ldflags': [ '-fno-lto' ],
--        }],
 -      ],
 -    }, # embedtest
 -
@@ -299,19 +268,8 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -            'test/overlapped-checker/main_unix.c'
 -          ],
 -        }],
--        # Avoid excessive LTO
--        ['enable_lto=="true"', {
--          'ldflags': [ '-fno-lto' ],
--        }],
 -      ]
 -    }, # overlapped-checker
-     {
-       'target_name': 'node_js2c',
-       'type': 'executable',
-@@ -1334,69 +1045,7 @@
-         }],
-       ]
-     },
 -    {
 -      'target_name': 'node_mksnapshot',
 -      'type': 'executable',
@@ -320,7 +278,6 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -        '<(node_lib_target_name)',
 -        'deps/histogram/histogram.gyp:histogram',
 -        'deps/uvwasi/uvwasi.gyp:uvwasi',
--        'deps/ada/ada.gyp:ada',
 -      ],
 -
 -      'includes': [
@@ -337,16 +294,13 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -      ],
 -
 -      'defines': [ 'NODE_WANT_INTERNALS=1' ],
- 
+-
 -      'sources': [
 -        'src/node_snapshot_stub.cc',
 -        'tools/snapshot/node_mksnapshot.cc',
 -      ],
 -
 -      'conditions': [
--        ['node_write_snapshot_as_array_literals=="true"', {
--          'defines': [ 'NODE_MKSNAPSHOT_USE_ARRAY_LITERALS=1' ],
--        }],
 -        [ 'node_use_openssl=="true"', {
 -          'defines': [
 -            'HAVE_OPENSSL=1',
@@ -368,10 +322,6 @@ diff -uNr node-v20.17.0/node.gyp node-v20.17.0.mod/node.gyp
 -            'winmm.lib',
 -            'Ws2_32.lib',
 -          ],
--        }],
--        # Avoid excessive LTO
--        ['enable_lto=="true"', {
--          'ldflags': [ '-fno-lto' ],
 -        }],
 -      ],
 -    }, # node_mksnapshot

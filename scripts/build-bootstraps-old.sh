@@ -495,7 +495,7 @@ main() {
 		# 	PACKAGES+=("apt")
 		# 	# PACKAGES+=("${TERMUX_PACKAGE_MANAGER}")
 		# fi
-  		# PACKAGES+=("apt")
+  		#PACKAGES+=("apt")
 
 		# Core utilities.
 		PACKAGES+=("bash")

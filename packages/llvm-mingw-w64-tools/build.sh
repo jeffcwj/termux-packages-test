@@ -2,10 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/mstorsjo/llvm-mingw
 TERMUX_PKG_DESCRIPTION="MinGW-w64 tools for LLVM-MinGW"
 TERMUX_PKG_LICENSE="custom"
 TERMUX_PKG_MAINTAINER="@licy183"
-TERMUX_PKG_VERSION=12.0.0
+TERMUX_PKG_VERSION=10.0.0
 TERMUX_PKG_SRCURL=https://downloads.sourceforge.net/mingw-w64/mingw-w64/mingw-w64-release/mingw-w64-v${TERMUX_PKG_VERSION}.tar.bz2
-TERMUX_PKG_SHA256=cc41898aac4b6e8dd5cffd7331b9d9515b912df4420a3a612b5ea2955bbeed2f
-TERMUX_PKG_AUTO_UPDATE=false
+TERMUX_PKG_SHA256=ba6b430aed72c63a3768531f6a3ffc2b0fde2c57a3b251450dcf489a894f0894
 TERMUX_PKG_BUILD_DEPENDS="llvm-mingw-w64-ucrt"
 TERMUX_PKG_BUILD_IN_SRC=true
 
@@ -22,7 +21,7 @@ termux_step_make() {
 	pushd mingw-w64-tools/gendef
 	mkdir -p build && cd build
 	../configure --host=$TERMUX_HOST_PLATFORM --prefix="$_INSTALL_PREFIX"
-	make -j $TERMUX_PKG_MAKE_PROCESSES
+	make -j $TERMUX_MAKE_PROCESSES
 	make install-strip
 	mkdir -p "$_INSTALL_PREFIX/share/gendef"
 	install -m644 ../COPYING "$_INSTALL_PREFIX/share/gendef"
@@ -34,8 +33,8 @@ termux_step_make() {
 	../configure --host=$TERMUX_HOST_PLATFORM \
 				--prefix="$_INSTALL_PREFIX" \
 				--target=x86_64-w64-mingw32 \
-				--with-widl-includedir="$_INCLUDE_DIR"
-	make -j $TERMUX_PKG_MAKE_PROCESSES
+				--with-widl-includedir="$_INCLUDE_DIR" 
+	make -j $TERMUX_MAKE_PROCESSES
 	make install-strip
 	mkdir -p "$_INSTALL_PREFIX/share/widl"
 	install -m644 ../../../COPYING "$_INSTALL_PREFIX/share/widl"

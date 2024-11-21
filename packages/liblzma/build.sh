@@ -3,17 +3,12 @@ TERMUX_PKG_DESCRIPTION="XZ-format compression library"
 TERMUX_PKG_LICENSE="LGPL-2.1, GPL-2.0, GPL-3.0"
 TERMUX_PKG_LICENSE_FILE="COPYING, COPYING.GPLv2, COPYING.GPLv3, COPYING.LGPLv2.1"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="5.6.3"
-TERMUX_PKG_SRCURL=https://github.com/tukaani-project/xz/releases/download/v$TERMUX_PKG_VERSION/xz-$TERMUX_PKG_VERSION.tar.xz
-TERMUX_PKG_SHA256=db0590629b6f0fa36e74aea5f9731dc6f8df068ce7b7bafa45301832a5eebc3a
-TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_VERSION=5.4.1
+TERMUX_PKG_SRCURL=https://downloads.sourceforge.net/project/lzmautils/xz-${TERMUX_PKG_VERSION}.tar.gz
+TERMUX_PKG_SHA256=e4b0f81582efa155ccf27bb88275254a429d44968e488fc94b806f2a61cd3e22
 TERMUX_PKG_BREAKS="liblzma-dev"
 TERMUX_PKG_REPLACES="liblzma-dev"
 TERMUX_PKG_ESSENTIAL=true
-# seccomp prevents SYS_landlock_create_ruleset
-TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
---enable-sandbox=no
-"
 
 termux_step_post_massage() {
 	# Do not forget to bump revision of reverse dependencies and rebuild them

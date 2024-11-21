@@ -2,12 +2,11 @@ TERMUX_PKG_HOMEPAGE=https://www.graphviz.org/
 TERMUX_PKG_DESCRIPTION="Rich set of graph drawing tools"
 TERMUX_PKG_LICENSE="EPL-2.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="12.2.0"
-TERMUX_PKG_REVISION=1
+TERMUX_PKG_VERSION="7.1.0"
 TERMUX_PKG_SRCURL=https://gitlab.com/graphviz/graphviz/-/archive/$TERMUX_PKG_VERSION/graphviz-$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=0063e501fa4642b55f4daf82820b2778bfb7dafa651a862ae5c9810efb8e2311
+TERMUX_PKG_SHA256=8b28a283644a8442e6925b15d95055228d25172c7c30681810625616cbb23913
 TERMUX_PKG_AUTO_UPDATE=true
-TERMUX_PKG_DEPENDS="fontconfig, freetype, gdk-pixbuf, glib, harfbuzz, libandroid-glob, libc++, libcairo, libexpat, libgd, libgts, libltdl, librsvg, libwebp, pango, zlib"
+TERMUX_PKG_DEPENDS="fontconfig, freetype, gdk-pixbuf, glib, harfbuzz, libandroid-glob, libc++, libcairo, libexpat, libgd, libltdl, librsvg, libwebp, pango, zlib"
 TERMUX_PKG_BREAKS="graphviz-dev"
 TERMUX_PKG_REPLACES="graphviz-dev"
 TERMUX_PKG_BUILD_DEPENDS="libtool"
@@ -40,13 +39,8 @@ termux_step_pre_configure() {
 	./autogen.sh NOCONFIG
 	export HOSTCC="gcc"
 
-	# ERROR: ./lib/graphviz/libgvplugin_neato_layout.so contains undefined symbols: __extendsftf2
-	local _libgcc_file="$($CC -print-libgcc-file-name)"
-	local _libgcc_path="$(dirname $_libgcc_file)"
-	local _libgcc_name="$(basename $_libgcc_file)"
-	LDFLAGS+=" -L$_libgcc_path -l:$_libgcc_name"
-
 	LDFLAGS+=" -lm -landroid-glob"
+	LDFLAGS+=" $($CC -print-libgcc-file-name)"
 	LDFLAGS+=" -Wl,-rpath=$TERMUX_PREFIX/lib/graphviz"
 }
 

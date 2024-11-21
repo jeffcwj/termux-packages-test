@@ -2,52 +2,52 @@ TERMUX_PKG_HOMEPAGE=https://www.libsdl.org
 TERMUX_PKG_DESCRIPTION="A library for portable low-level access to a video framebuffer, audio output, mouse, and keyboard (version 2)"
 TERMUX_PKG_LICENSE="ZLIB"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="2.30.9"
+TERMUX_PKG_VERSION=2.26.3
 TERMUX_PKG_SRCURL=https://www.libsdl.org/release/SDL2-${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=24b574f71c87a763f50704bbb630cbe38298d544a1f890f099a4696b1d6beba4
-TERMUX_PKG_DEPENDS="libdecor, libwayland, libx11, libxcursor, libxext, libxfixes, libxi, libxkbcommon, libxrandr, libxss, pulseaudio"
-TERMUX_PKG_BUILD_DEPENDS="libwayland-cross-scanner, libwayland-protocols, opengl"
+TERMUX_PKG_SHA256=c661205a553b7d252425f4b751ff13209e5e020b876bbfa1598494af61790057
+TERMUX_PKG_DEPENDS="libx11, libxcursor, libxext, libxfixes, libxi, libxrandr, libxss, pulseaudio"
+TERMUX_PKG_BUILD_DEPENDS="opengl"
 TERMUX_PKG_RECOMMENDS="opengl"
 TERMUX_PKG_CONFLICTS="libsdl2"
 TERMUX_PKG_REPLACES="libsdl2"
+
 TERMUX_PKG_AUTO_UPDATE=true
+
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
---disable-3dnow
---disable-alsa
---disable-assembly
---disable-dbus
---disable-directx
---disable-esd
---disable-fcitx
---disable-ibus
---disable-ime
---disable-libudev
---disable-mmx
---disable-oss
---disable-pthread-sem
---disable-render-d3d
---disable-render-metal
---disable-video-cocoa
---disable-video-kmsdrm
---disable-video-rpi
---disable-video-vivante
---enable-libdecor
---enable-pthreads
---enable-video-opengl
---enable-video-opengles
---enable-video-opengles1
---enable-video-opengles2
---enable-video-vulkan
---enable-video-wayland
---enable-video-x11-scrnsaver
---enable-video-x11-xcursor
---enable-video-x11-xdbe
---enable-video-x11-xfixes
---enable-video-x11-xinput
---enable-video-x11-xrandr
---enable-video-x11-xshape
 --x-includes=${TERMUX_PREFIX}/include
 --x-libraries=${TERMUX_PREFIX}/lib
+--disable-assembly
+--disable-mmx
+--disable-3dnow
+--disable-oss
+--disable-alsa
+--disable-esd
+--disable-video-wayland
+--disable-video-rpi
+--enable-video-x11-xcursor
+--enable-video-x11-xinerama
+--enable-video-x11-xinput
+--enable-video-x11-xrandr
+--enable-video-x11-scrnsaver
+--enable-video-x11-xshape
+--enable-video-x11-vm
+--disable-video-vivante
+--disable-video-cocoa
+--disable-render-metal
+--disable-video-kmsdrm
+--enable-video-opengl
+--disable-video-opengles
+--disable-video-opengles2
+--disable-video-vulkan
+--disable-libudev
+--disable-dbus
+--disable-ime
+--disable-ibus
+--disable-fcitx
+--enable-pthreads
+--disable-pthread-sem
+--disable-directx
+--disable-render-d3d
 "
 
 termux_step_post_get_source() {
@@ -67,8 +67,6 @@ termux_step_pre_configure() {
 		xargs -n 1 sed -i \
 		-e 's/\([^A-Za-z0-9_]__ANDROID\)\(__[^A-Za-z0-9_]\)/\1_NO_TERMUX\2/g' \
 		-e 's/\([^A-Za-z0-9_]__ANDROID\)__$/\1_NO_TERMUX__/g'
-
-	termux_setup_wayland_cross_pkg_config_wrapper
 }
 
 termux_step_post_massage() {

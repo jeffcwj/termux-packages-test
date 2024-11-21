@@ -2,10 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://openldap.org
 TERMUX_PKG_DESCRIPTION="OpenLDAP server"
 TERMUX_PKG_LICENSE="OpenLDAP"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="2.6.8"
+TERMUX_PKG_VERSION=2.6.4
 TERMUX_PKG_SRCURL=https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-${TERMUX_PKG_VERSION}.tgz
-TERMUX_PKG_SHA256=48969323e94e3be3b03c6a132942dcba7ef8d545f2ad35401709019f696c3c4e
-TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_SHA256=d51704e50178430c06cf3d8aa174da66badf559747a47d920bb54b2d4aa40991
 TERMUX_PKG_DEPENDS="libsasl, libuuid, openssl"
 TERMUX_PKG_BREAKS="openldap-dev"
 TERMUX_PKG_REPLACES="openldap-dev"
@@ -22,8 +21,6 @@ ac_cv_func_memcmp_working=yes
 --enable-ldap"
 
 termux_step_pre_configure() {
-	autoreconf -fi
-
 	CFLAGS+=" -DMDB_USE_ROBUST=0"
 	LDFLAGS+=" -lcrypto -llog"
 }

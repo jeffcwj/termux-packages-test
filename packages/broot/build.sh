@@ -2,14 +2,16 @@ TERMUX_PKG_HOMEPAGE=https://github.com/Canop/broot
 TERMUX_PKG_DESCRIPTION="A better way to navigate directories"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="1.44.2"
-TERMUX_PKG_SRCURL=https://github.com/Canop/broot/archive/refs/tags/v${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=e1b78354c21680914a07ed4b856257c83ef873b878ef281bd2d1aed7fcba3828
-TERMUX_PKG_DEPENDS="libgit2"
-TERMUX_PKG_BUILD_IN_SRC=true
+TERMUX_PKG_VERSION=1.20.2
+TERMUX_PKG_SRCURL=https://github.com/Canop/broot/archive/v${TERMUX_PKG_VERSION}.tar.gz
+TERMUX_PKG_SHA256=372623ac1affc2473bcf75ce6be2862d8cc61ac4372a622a599b4c7f2ea06161
 TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_DEPENDS="zlib"
+TERMUX_PKG_BUILD_IN_SRC=true
 
 termux_step_pre_configure() {
+	CPPFLAGS+=" -DGIT_ERROR_SHA1=GIT_ERROR_SHA"
+
 	termux_setup_rust
 
 	: "${CARGO_HOME:=$HOME/.cargo}"
@@ -17,15 +19,19 @@ termux_step_pre_configure() {
 
 	cargo fetch --target "${CARGO_TARGET_NAME}"
 
-	local f
-	for f in $CARGO_HOME/registry/src/*/libgit2-sys-*/build.rs; do
-		sed -i -E 's/\.range_version\(([^)]*)\.\.[^)]*\)/.atleast_version(\1)/g' "${f}"
+	local _patch=$TERMUX_SCRIPTDIR/packages/libgit2/src-util-rand.c.patch
+	local d
+	for d in $CARGO_HOME/registry/src/github.com-*/libgit2-sys-*/libgit2; do
+		(
+			t=${d}/src/
+			cp $TERMUX_SCRIPTDIR/packages/libgit2/getloadavg.c ${t}
+			patch --silent -d ${t} < ${_patch}
+		) || :
 	done
-	sed -i '/trash/d' $TERMUX_PKG_SRCDIR/Cargo.toml
 }
 
 termux_step_make() {
-	cargo build --jobs $TERMUX_PKG_MAKE_PROCESSES --target $CARGO_TARGET_NAME --release
+	cargo build --jobs $TERMUX_MAKE_PROCESSES --target $CARGO_TARGET_NAME --release
 
 	mkdir -p build
 	cp man/page build/broot.1

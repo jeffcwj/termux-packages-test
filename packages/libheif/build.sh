@@ -3,19 +3,18 @@ TERMUX_PKG_DESCRIPTION="HEIF (HEIC/AVIF) image encoding and decoding library"
 TERMUX_PKG_LICENSE="LGPL-3.0, MIT"
 TERMUX_PKG_LICENSE_FILE="COPYING"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="1.19.5"
+TERMUX_PKG_VERSION="1.15.1"
 TERMUX_PKG_SRCURL=https://github.com/strukturag/libheif/releases/download/v${TERMUX_PKG_VERSION}/libheif-${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=d3cf0a76076115a070f9bc87cf5259b333a1f05806500045338798486d0afbaf
+TERMUX_PKG_SHA256=28d5a376fe7954d2d03453f983aaa0b7486f475c27c7806bda31df9102325556
 TERMUX_PKG_AUTO_UPDATE=true
-TERMUX_PKG_DEPENDS="gdk-pixbuf, glib, libaom, libc++, libdav1d, libde265, librav1e, libx265"
-TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
--DENABLE_PLUGIN_LOADING=OFF
-"
+TERMUX_PKG_DEPENDS="libaom, libc++, libdav1d, librav1e, libde265, libx265"
 
 termux_step_pre_configure() {
 	# SOVERSION suffix is needed for SONAME of shared libs to avoid conflict
 	# with system ones (in /system/lib64 or /system/lib):
-	TERMUX_PKG_EXTRA_CONFIGURE_ARGS+=" -DCMAKE_SYSTEM_NAME=Linux"
+	sed -i 's/^\(linux\*android\)\*)/\1-notermux)/' configure
+
+	LDFLAGS+=" $($CC -print-libgcc-file-name)"
 }
 
 termux_step_post_massage() {

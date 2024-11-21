@@ -2,16 +2,15 @@ TERMUX_PKG_HOMEPAGE=http://www.gnumeric.org/
 TERMUX_PKG_DESCRIPTION="The GNOME spreadsheet"
 TERMUX_PKG_LICENSE="GPL-2.0, GPL-3.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="1.12.57"
-TERMUX_PKG_REVISION=1
-TERMUX_PKG_SRCURL=https://download.gnome.org/sources/gnumeric/${TERMUX_PKG_VERSION%.*}/gnumeric-${TERMUX_PKG_VERSION}.tar.xz
-TERMUX_PKG_SHA256=aff50b1b62340c24fccf453d5fad3e7fb73f4bc4b34f7e34b6c3d2d9af6a1e4f
+_MAJOR_VERSION=1.12
+TERMUX_PKG_VERSION=${_MAJOR_VERSION}.55
+TERMUX_PKG_SRCURL=https://download.gnome.org/sources/gnumeric/${_MAJOR_VERSION}/gnumeric-${TERMUX_PKG_VERSION}.tar.xz
+TERMUX_PKG_SHA256=c69a09cd190b622acca476bbc3d4c03d68d7ccf59bba61bf036ce60885f9fb65
 TERMUX_PKG_DEPENDS="atk, gdk-pixbuf, glib, goffice, gtk3, libcairo, libgsf, libxml2, pango, zlib"
 TERMUX_PKG_BUILD_DEPENDS="g-ir-scanner"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel"
 TERMUX_PKG_RECOMMENDS="gnumeric-help"
 TERMUX_PKG_SUGGESTS="glpk"
-TERMUX_PKG_VERSIONED_GIR=false
 TERMUX_PKG_DISABLE_GIR=false
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 PYTHON=python
@@ -24,6 +23,7 @@ PYTHON=python
 "
 TERMUX_PKG_RM_AFTER_INSTALL="
 lib/locale
+share/glib-2.0/schemas/gschemas.compiled
 "
 
 termux_step_pre_configure() {
@@ -36,8 +36,6 @@ termux_step_pre_configure() {
 
 	export PYTHON_GIOVERRIDESDIR=$TERMUX_PYTHON_HOME/site-packages/gi/overrides
 	export PYTHON_CONFIG=$TERMUX_PREFIX/bin/python-config
-
-	unset PYTHONPATH
 
 	CPPFLAGS+=" -D__USE_GNU"
 }

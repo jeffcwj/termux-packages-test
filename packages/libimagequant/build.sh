@@ -3,11 +3,9 @@ TERMUX_PKG_DESCRIPTION="Small, portable C library for high-quality conversion of
 TERMUX_PKG_LICENSE="GPL-3.0"
 TERMUX_PKG_LICENSE_FILE="COPYRIGHT"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="4.3.3"
+TERMUX_PKG_VERSION=4.1.0
 TERMUX_PKG_SRCURL=https://github.com/ImageOptim/libimagequant/archive/refs/tags/${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=c50a59003a4c4ce53c76314e62f1e86d86d882bc09addb13daa0faa9260b9614
-TERMUX_PKG_AUTO_UPDATE=true
-TERMUX_PKG_UPDATE_TAG_TYPE="newest-tag"
+TERMUX_PKG_SHA256=7673521655cdf0ec16b99fd0c7c8b1bd542b6f3a8469fa2effe34b0f53e9fa92
 TERMUX_PKG_BUILD_IN_SRC=true
 
 termux_step_pre_configure() {
@@ -25,5 +23,5 @@ termux_step_make_install() {
 	cargo cinstall \
 		--target $CARGO_TARGET_NAME \
 		--prefix $TERMUX_PREFIX \
-		--jobs $TERMUX_PKG_MAKE_PROCESSES
+		--jobs $TERMUX_MAKE_PROCESSES
 }

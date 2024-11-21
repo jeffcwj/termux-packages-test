@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/orf/gping
 TERMUX_PKG_DESCRIPTION="Ping, but with a graph"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="Krishna kanhaiya @kcubeterm"
-TERMUX_PKG_VERSION="1.18.0"
+TERMUX_PKG_VERSION="1.8.0"
 TERMUX_PKG_SRCURL=https://github.com/orf/gping/archive/refs/tags/gping-v$TERMUX_PKG_VERSION.zip
-TERMUX_PKG_SHA256=a3e38f48221e115a1d58a2fd1c012cfb1c654fce90ea50f41d43ed300c3ba946
+TERMUX_PKG_SHA256=976c2952cf6d7ea8561874150ae74c5a22d27fe6587870e034b31d4403fec9c0
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_UPDATE_VERSION_REGEXP="\d+\.\d+\.\d+"
 TERMUX_PKG_BUILD_DEPENDS="zlib"
@@ -19,7 +19,7 @@ termux_step_pre_configure() {
 
 termux_step_make() {
 	cd gping
-	cargo build --jobs $TERMUX_PKG_MAKE_PROCESSES --target $CARGO_TARGET_NAME --release
+	cargo build --jobs $TERMUX_MAKE_PROCESSES --target $CARGO_TARGET_NAME --release
 	cd ..
 }
 

@@ -24,7 +24,7 @@
 +#else
 +			pthread_kill(thread, SIGUSR2);
 +#endif
- 			sleep(1);
+ 			usleep(100000);
  		}
  
 @@ -2552,8 +2564,17 @@

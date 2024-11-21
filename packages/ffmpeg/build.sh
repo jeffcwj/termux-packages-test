@@ -2,12 +2,11 @@ TERMUX_PKG_HOMEPAGE=https://ffmpeg.org
 TERMUX_PKG_DESCRIPTION="Tools and libraries to manipulate a wide range of multimedia formats and protocols"
 TERMUX_PKG_LICENSE="GPL-3.0"
 TERMUX_PKG_MAINTAINER="@termux"
-# Please align version with `ffplay` package.
-TERMUX_PKG_VERSION="6.1.2"
-TERMUX_PKG_REVISION=1
+TERMUX_PKG_VERSION=5.1.2
+TERMUX_PKG_REVISION=7
 TERMUX_PKG_SRCURL=https://www.ffmpeg.org/releases/ffmpeg-${TERMUX_PKG_VERSION}.tar.xz
-TERMUX_PKG_SHA256=3b624649725ecdc565c903ca6643d41f33bd49239922e45c9b1442c63dca4e38
-TERMUX_PKG_DEPENDS="fontconfig, freetype, fribidi, game-music-emu, harfbuzz, libaom, libandroid-glob, libass, libbluray, libbz2, libdav1d, libgnutls, libiconv, liblzma, libmp3lame, libopencore-amr, libopenmpt, libopus, librav1e, libsoxr, libsrt, libssh, libtheora, libv4l, libvidstab, libvmaf, libvo-amrwbenc, libvorbis, libvpx, libwebp, libx264, libx265, libxml2, libzimg, littlecms, ocl-icd, svt-av1, xvidcore, zlib"
+TERMUX_PKG_SHA256=619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc
+TERMUX_PKG_DEPENDS="freetype, game-music-emu, libaom, libandroid-glob, libass, libbluray, libbz2, libdav1d, libgnutls, libiconv, liblzma, libmp3lame, libopus, librav1e, libsoxr, libssh, libtheora, libvorbis, libvpx, libvidstab, libwebp, libx264, libx265, libxml2, libzimg, littlecms, ocl-icd, xvidcore, zlib"
 TERMUX_PKG_BUILD_DEPENDS="opencl-headers"
 TERMUX_PKG_CONFLICTS="libav"
 TERMUX_PKG_BREAKS="ffmpeg-dev"
@@ -16,9 +15,9 @@ TERMUX_PKG_REPLACES="ffmpeg-dev"
 termux_step_pre_configure() {
 	# Do not forget to bump revision of reverse dependencies and rebuild them
 	# after SOVERSION is changed. (These variables are also used afterwards.)
-	_FFMPEG_SOVER_avutil=58
-	_FFMPEG_SOVER_avcodec=60
-	_FFMPEG_SOVER_avformat=60
+	_FFMPEG_SOVER_avutil=57
+	_FFMPEG_SOVER_avcodec=59
+	_FFMPEG_SOVER_avformat=59
 
 	local f
 	for f in util codec format; do
@@ -58,8 +57,6 @@ termux_step_configure() {
 		--cc="$CC" \
 		--cxx="$CXX" \
 		--nm="$NM" \
-		--ar="$AR" \
-		--ranlib="llvm-ranlib" \
 		--pkg-config="$PKG_CONFIG" \
 		--strip="$STRIP" \
 		--cross-prefix="${TERMUX_HOST_PLATFORM}-" \
@@ -71,33 +68,20 @@ termux_step_configure() {
 		--enable-cross-compile \
 		--enable-gnutls \
 		--enable-gpl \
-		--enable-version3 \
-		--enable-jni \
 		--enable-lcms2 \
 		--enable-libaom \
 		--enable-libass \
 		--enable-libbluray \
 		--enable-libdav1d \
-		--enable-libfontconfig \
 		--enable-libfreetype \
-		--enable-libfribidi \
 		--enable-libgme \
-		--enable-libharfbuzz \
 		--enable-libmp3lame \
-		--enable-libopencore-amrnb \
-		--enable-libopencore-amrwb \
-		--enable-libopenmpt \
 		--enable-libopus \
 		--enable-librav1e \
 		--enable-libsoxr \
-		--enable-libsrt \
 		--enable-libssh \
-		--enable-libsvtav1 \
 		--enable-libtheora \
-		--enable-libv4l2 \
 		--enable-libvidstab \
-		--enable-libvmaf \
-		--enable-libvo-amrwbenc \
 		--enable-libvorbis \
 		--enable-libvpx \
 		--enable-libwebp \
@@ -106,7 +90,6 @@ termux_step_configure() {
 		--enable-libxml2 \
 		--enable-libxvid \
 		--enable-libzimg \
-		--enable-mediacodec \
 		--enable-opencl \
 		--enable-shared \
 		--prefix="$TERMUX_PREFIX" \

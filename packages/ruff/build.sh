@@ -3,14 +3,14 @@ TERMUX_PKG_DESCRIPTION="An extremely fast Python linter, written in Rust"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_LICENSE_FILE="../../LICENSE"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="0.7.4"
-TERMUX_PKG_SRCURL="https://github.com/charliermarsh/ruff/archive/refs/tags/$TERMUX_PKG_VERSION.tar.gz"
-TERMUX_PKG_SHA256=43b2619d1405188252425db62bea2c989c5a839122e5b562de11bda99ff3252c
+TERMUX_PKG_VERSION="0.0.252"
+TERMUX_PKG_SRCURL="https://github.com/charliermarsh/ruff/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz"
+TERMUX_PKG_SHA256=09580405a44be5ee4c1b60070ed2fdef407a61f9bdb660979eea3042d4465987
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_BUILD_IN_SRC=true
 
 termux_step_pre_configure() {
-	TERMUX_PKG_SRCDIR+="/crates/ruff"
+	TERMUX_PKG_SRCDIR+="/crates/ruff_cli"
 	TERMUX_PKG_BUILDDIR="${TERMUX_PKG_SRCDIR}"
 
 	cd $TERMUX_PKG_BUILDDIR
@@ -18,7 +18,7 @@ termux_step_pre_configure() {
 	mkdir -p _lib
 	cd _lib
 	$CC $CPPFLAGS $CFLAGS -fvisibility=hidden \
-		-c $TERMUX_PKG_BUILDER_DIR/ctermid.c
+		-c $TERMUX_PKG_BUILDER_DIR/ctermid.c 
 	$AR cru libctermid.a ctermid.o
 
 	RUSTFLAGS+=" -C link-arg=$TERMUX_PKG_BUILDDIR/_lib/libctermid.a"
@@ -33,7 +33,7 @@ termux_step_pre_configure() {
 
 	local _patch=$TERMUX_PKG_BUILDER_DIR/tikv-jemalloc-sys-0.5.3+5.3.0-patched-src-lib.rs.diff
 	local d
-	for d in $CARGO_HOME/registry/src/*/tikv-jemalloc-sys-*; do
+	for d in $CARGO_HOME/registry/src/github.com-*/tikv-jemalloc-sys-*; do
 		patch --silent -p1 -d ${d} < ${_patch} || :
 	done
 }

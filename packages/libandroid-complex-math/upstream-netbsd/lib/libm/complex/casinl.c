@@ -33,8 +33,6 @@
 #include <complex.h>
 #include <math.h>
 
-long double complex clogl(long double complex);
-
 #ifdef __weak_alias
 __weak_alias(casinl, _casinl)
 #endif

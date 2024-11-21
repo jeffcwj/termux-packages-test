@@ -12,12 +12,12 @@
 
 --- a/libsolidity/lsp/DocumentHoverHandler.cpp
 +++ b/libsolidity/lsp/DocumentHoverHandler.cpp
-@@ -32,7 +32,7 @@
+@@ -35,7 +35,7 @@
  
  struct MarkdownBuilder
  {
--	std::stringstream result;
-+	std::stringstream result{};
+-	stringstream result;
++	stringstream result{};
  
- 	MarkdownBuilder& solidityCode(std::string const& _code)
+ 	MarkdownBuilder& solidityCode(string const& _code)
  	{

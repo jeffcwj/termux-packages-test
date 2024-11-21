@@ -2,9 +2,10 @@ TERMUX_PKG_HOMEPAGE=https://linux-nfs.org/
 TERMUX_PKG_DESCRIPTION="Linux NFS userland utilities"
 TERMUX_PKG_LICENSE="GPL-2.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION=2.6.4
+TERMUX_PKG_VERSION=2.6.2
+TERMUX_PKG_REVISION=1
 TERMUX_PKG_SRCURL=https://downloads.sourceforge.net/nfs/nfs-utils-${TERMUX_PKG_VERSION}.tar.bz2
-TERMUX_PKG_SHA256=c0ae376ac056011ed0954deba2362d7d8193c653b500b68a543aec512cd2ecfa
+TERMUX_PKG_SHA256=958890e4a2fe981c2e449002709224bedf009934bf69e73fe911cbc96aad0b7d
 TERMUX_PKG_DEPENDS="keyutils, libblkid, libcap, libdevmapper, libevent, libmount, libsqlite, libtirpc, libuuid, openldap"
 TERMUX_PKG_BUILD_DEPENDS="libxml2"
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -25,8 +26,6 @@ lib/udev
 
 termux_step_pre_configure() {
 	autoreconf -fi
-
-	CPPFLAGS+=" -D__USE_GNU"
 
 	local _lib="$TERMUX_PKG_BUILDDIR/_lib"
 	rm -rf "${_lib}"

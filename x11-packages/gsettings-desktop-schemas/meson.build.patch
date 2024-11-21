@@ -4,6 +4,6 @@
  subdir('schemas')
  subdir('po')
  
--gnome.post_install(
--  glib_compile_schemas: true,
--)
+-# Keep this in sync with post-install.py expected arguments
+-meson.add_install_script('build-aux/meson/post-install.py',
+-                         datadir)

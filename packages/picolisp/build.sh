@@ -1,20 +1,18 @@
-TERMUX_PKG_HOMEPAGE="https://picolisp.com/wiki/?home"
+TERMUX_PKG_HOMEPAGE=https://picolisp.com/wiki/?home
 TERMUX_PKG_DESCRIPTION="Lisp interpreter and application server framework"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_LICENSE_FILE="COPYING"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="24.9"
-TERMUX_PKG_SRCURL=https://software-lab.de/picoLisp-${TERMUX_PKG_VERSION}.tgz
-TERMUX_PKG_SHA256=8e335099da0a1adc7673bf410a73865dd7dcd88beff73a02da8aee2f370957af
-TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_VERSION=23.2
+TERMUX_PKG_REVISION=3
+TERMUX_PKG_SRCURL=https://deb.debian.org/debian/pool/main/p/picolisp/picolisp_${TERMUX_PKG_VERSION}.orig.tar.gz
+TERMUX_PKG_SHA256=d46bcfdaf9af3c0b0abe3ba5e81372e4119ef24fcfb538b3c40cd3d278998170
 TERMUX_PKG_DEPENDS="libcrypt, libffi, openssl, readline"
 TERMUX_PKG_BUILD_IN_SRC=true
 # For 32-bit archs we nees to build minipicolisp
 TERMUX_PKG_BLACKLISTED_ARCHES="arm, i686"
 
 termux_step_make() {
-	sed -i "s|/usr/lib/picolisp/lib.l|${TERMUX_PREFIX}/lib/picolisp/lib.l|" $TERMUX_PKG_SRCDIR/bin/pil
-	sed -i "s|/usr/lib/picolisp/lib.l|${TERMUX_PREFIX}/lib/picolisp/lib.l|" $TERMUX_PKG_SRCDIR/bin/vip
 	cd $TERMUX_PKG_SRCDIR/src
 	$CC -O3 -c -emit-llvm base.ll
 	$CC -O3 -w -c -D_OS="\"Android\"" -D_CPU="\"$TERMUX_ARCH\"" `$PKGCONFIG --cflags libffi` -emit-llvm lib.c
@@ -58,7 +56,7 @@ termux_step_make_install() {
 	cp -r ../doc $TERMUX_PREFIX/lib/picolisp
 	cp -r ../img $TERMUX_PREFIX/lib/picolisp
 
-	install -Dm644 ../lib/bash_completion $TERMUX_PREFIX/share/bash-completion/completions/pil
+	install -Dm644 -t $TERMUX_PREFIX/share/bash-completion/completions/pil ../lib/bash_completion
 }
 
 termux_step_create_debscripts() {

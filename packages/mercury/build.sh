@@ -2,10 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://www.mercurylang.org/
 TERMUX_PKG_DESCRIPTION="A logic/functional programming language"
 TERMUX_PKG_LICENSE="GPL-2.0, LGPL-2.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="22.01.8"
+TERMUX_PKG_VERSION=22.01.5
 TERMUX_PKG_SRCURL=https://dl.mercurylang.org/release/mercury-srcdist-${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=a097e8cc8eca0152ed9527c1caf73e5c9c83f6ada1d313a25b80fe79072fbad8
-TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_SHA256=7e1b2d1b130c0afc65542be3c2e48399cf2c25d7a04ad3c427e022715b098a0f
 TERMUX_PKG_DEPENDS="libandroid-sysv-semaphore-static"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_HOSTBUILD=true
@@ -37,7 +36,7 @@ termux_step_host_build() {
 	./configure \
 		CC="gcc -m${TERMUX_ARCH_BITS}" CXX="g++ -m${TERMUX_ARCH_BITS}" \
 		$TERMUX_PKG_EXTRA_CONFIGURE_ARGS
-	make -j $TERMUX_PKG_MAKE_PROCESSES
+	make -j $TERMUX_MAKE_PROCESSES
 }
 
 termux_step_pre_configure() {
