@@ -9,8 +9,8 @@ TERMUX_ANDROID_BUILD_TOOLS_VERSION=33.0.1
 # change TERMUX_PKG_VERSION (and remove TERMUX_PKG_REVISION if necessary) in:
 #   apksigner, d8
 # and trigger rebuild of them
-: "${TERMUX_NDK_VERSION_NUM:="25"}"
-: "${TERMUX_NDK_REVISION:="c"}"
+: "${TERMUX_NDK_VERSION_NUM:="27"}"
+: "${TERMUX_NDK_REVISION:="b"}"
 TERMUX_NDK_VERSION=$TERMUX_NDK_VERSION_NUM$TERMUX_NDK_REVISION
 # when changing the above:
 # update version and hashsum in packages
@@ -30,8 +30,8 @@ else
 fi
 
 # Termux packages configuration.
-TERMUX_APP_PACKAGE="com.termdo"
-TERMUX_BASE_DIR="/data/data/${TERMUX_APP_PACKAGE}/files/termdo"
+TERMUX_APP_PACKAGE="com.samp.game"
+TERMUX_BASE_DIR="/data/data/${TERMUX_APP_PACKAGE}/files"
 TERMUX_CACHE_DIR="/data/data/${TERMUX_APP_PACKAGE}/cache"
 TERMUX_ANDROID_HOME="${TERMUX_BASE_DIR}/home"
 TERMUX_APPS_DIR="${TERMUX_BASE_DIR}/apps"
@@ -40,7 +40,7 @@ TERMUX_PREFIX="${TERMUX_BASE_DIR}/usr"
 # Package name for the packages hosted on the repo.
 # This must only equal TERMUX_APP_PACKAGE if using custom repo that
 # has packages that were built with same package name.
-TERMUX_REPO_PACKAGE="com.termdo"
+TERMUX_REPO_PACKAGE="com.samp.game"
 
 # Termux repo urls.
 TERMUX_REPO_URL=(
