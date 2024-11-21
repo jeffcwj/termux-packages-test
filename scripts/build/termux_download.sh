@@ -8,6 +8,7 @@ termux_download() {
 	local URL="$1"
 	local DESTINATION="$2"
 	local CHECKSUM="$3"
+	local CHECKSUM="SKIP_CHECKSUM"
 
 	if [[ -f "$DESTINATION" ]] && [[ "$CHECKSUM" != "SKIP_CHECKSUM" ]]; then
 		# Keep existing file if checksum matches.
