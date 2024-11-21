@@ -1,3 +1,8 @@
+# TermDo packages
+
+> Copy from termux! Thanks!
+
+
 # Termux packages
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/termux/termux-packages)
@@ -6,8 +11,6 @@
 [![Repology metadata](https://github.com/termux/repology-metadata/workflows/Repology%20metadata/badge.svg)](https://repology.org/repository/termux)
 [![Join the chat at https://gitter.im/termux/termux](https://badges.gitter.im/termux/termux.svg)](https://gitter.im/termux/termux)
 [![Join the Termux discord server](https://img.shields.io/discord/641256914684084234.svg?label=&logo=discord&logoColor=ffffff&color=5865F2)](https://discord.gg/HXpF69X)
-
-[![Repository status](https://repology.org/badge/repository-big/termux.svg)](https://repology.org/repository/termux)
 
 <img src=".github/static/hosted-by-hetzner.png" alt="Hosted by Hetzner" width="128px"></img>
 
